@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Day01;
 
-internal partial class Day01Solver : Solver
+internal class Day01Solver : Solver
 {
     private readonly SpelledDigit[] _spelledDigits =
     [
