@@ -16,10 +16,18 @@
 
         public bool IsAdjacentTo(EnginePart other)
         {
-            return other.Row >= (Row - 1) && // Top
-                   other.Row <= (Row + 1) && // Bottom
-                   other.Column >= (Column - 1) && // Left
-                   other.Column <= (Column + (Value.Length - 1) + 1); // Right
+            var topAdjacentRow = Row - 1;
+            var bottomAdjacentRow = Row + 1;
+            var leftAdjacentColumn = Column - 1;
+            var rightAdjacentColumn = Column + (Value.Length - 1) + 1;
+
+            var otherRightColumn = other.Column + (other.Value.Length - 1);
+
+            return other.Row >= topAdjacentRow && // Top
+                   other.Row <= bottomAdjacentRow && // Bottom
+                   ((other.Column >= leftAdjacentColumn && other.Column <= rightAdjacentColumn) || // Start: Left and Right
+                    (otherRightColumn >= leftAdjacentColumn && otherRightColumn <= rightAdjacentColumn)); // End: Left and Right
+
         }
     }
 }
