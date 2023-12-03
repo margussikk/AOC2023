@@ -16,12 +16,17 @@ public abstract class Solver
     public void Solve(bool solvePartOne = true, bool solvePartTwo = true)
     {
         Console.WriteLine($"--- Day {Day}: {Name} ---");
-        
+
         // Parse input
-        string filename = Path.Combine(Environment.CurrentDirectory, "input.txt");
+        var parseStopwatch = Stopwatch.StartNew();
+        var filename = Path.Combine(Environment.CurrentDirectory, "input.txt");
         var lines = File.ReadAllLines(filename);
 
         ParseInput(lines);
+        parseStopwatch.Stop();
+
+        Console.WriteLine("Parse:");
+        PrintTime(parseStopwatch.ElapsedMilliseconds);
 
         // Solve part one
         if (solvePartOne)
@@ -30,6 +35,7 @@ public abstract class Solver
             var answer = SolvePartOne();
             stopwatch.Stop();
 
+            Console.WriteLine();
             Console.WriteLine("Part 1:");
             Console.WriteLine(answer);
             PrintTime(stopwatch.ElapsedMilliseconds);
@@ -38,14 +44,14 @@ public abstract class Solver
         // Solve part two
         if (solvePartTwo)
         {
+            var stopwatch = Stopwatch.StartNew();
+            var answer = SolvePartTwo();
+            stopwatch.Stop();
+
             if (solvePartOne)
             {
                 Console.WriteLine();
             }
-
-            var stopwatch = Stopwatch.StartNew();
-            var answer = SolvePartTwo();
-            stopwatch.Stop();
 
             Console.WriteLine("Part 2:");
             Console.WriteLine(answer);
