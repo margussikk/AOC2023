@@ -13,7 +13,7 @@ public abstract class Solver
         Name = name;
     }
 
-    public void Solve(bool solvePartOne = true, bool solvePartTwo = true)
+    public void Solve(bool solvePartTwo = true)
     {
         Console.WriteLine($"--- Day {Day}: {Name} ---");
 
@@ -29,33 +29,26 @@ public abstract class Solver
         PrintTime(parseStopwatch.ElapsedMilliseconds);
 
         // Solve part one
-        if (solvePartOne)
-        {
-            var stopwatch = Stopwatch.StartNew();
-            var answer = SolvePartOne();
-            stopwatch.Stop();
+        var partOneStopwatch = Stopwatch.StartNew();
+        var partOneAnswer = SolvePartOne();
+        partOneStopwatch.Stop();
 
-            Console.WriteLine();
-            Console.WriteLine("Part 1:");
-            Console.WriteLine(answer);
-            PrintTime(stopwatch.ElapsedMilliseconds);
-        }
+        Console.WriteLine();
+        Console.WriteLine("Part 1:");
+        Console.WriteLine(partOneAnswer);
+        PrintTime(partOneStopwatch.ElapsedMilliseconds);
 
         // Solve part two
         if (solvePartTwo)
         {
-            var stopwatch = Stopwatch.StartNew();
-            var answer = SolvePartTwo();
-            stopwatch.Stop();
+            var partTwoStopwatch = Stopwatch.StartNew();
+            var partTwoAnswer = SolvePartTwo();
+            partTwoStopwatch.Stop();
 
-            if (solvePartOne)
-            {
-                Console.WriteLine();
-            }
-
+            Console.WriteLine();
             Console.WriteLine("Part 2:");
-            Console.WriteLine(answer);
-            PrintTime(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine(partTwoAnswer);
+            PrintTime(partTwoStopwatch.ElapsedMilliseconds);
         }
     }
 
