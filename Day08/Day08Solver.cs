@@ -15,7 +15,7 @@ internal partial class Day08Solver : Solver
     private List<Instruction> _instructions = new List<Instruction>();
     private List<Node> _nodes = new List<Node>();
 
-    public Day08Solver() : base(8, "") { }
+    public Day08Solver() : base(8, "Haunted Wasteland") { }
 
     protected override void ParseInput(string[] inputLines)
     {
