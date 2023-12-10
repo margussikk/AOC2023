@@ -12,24 +12,24 @@ internal class Tile
 
     public bool IsAlongTheLoop { get; set; }
 
-    public void DetermineStartTileType(Grid<Tile> grid)
+    public void DetermineStartTileType(Grid<Tile> tiles)
     {
-        if (grid.Contains(Row - 1, Column) && grid[Row - 1, Column].TileType.HasFlag(TileType.South))
+        if (tiles.Contains(Row - 1, Column) && tiles[Row - 1, Column].TileType.HasFlag(TileType.South))
         {
             TileType |= TileType.North;
         }
 
-        if (grid.Contains(Row + 1, Column) && grid[Row + 1, Column].TileType.HasFlag(TileType.North))
+        if (tiles.Contains(Row + 1, Column) && tiles[Row + 1, Column].TileType.HasFlag(TileType.North))
         {
             TileType |= TileType.South;
         }
 
-        if (grid.Contains(Row, Column - 1) && grid[Row, Column - 1].TileType.HasFlag(TileType.East))
+        if (tiles.Contains(Row, Column - 1) && tiles[Row, Column - 1].TileType.HasFlag(TileType.East))
         {
             TileType |= TileType.West;
         }
 
-        if (grid.Contains(Row, Column + 1) && grid[Row, Column + 1].TileType.HasFlag(TileType.West))
+        if (tiles.Contains(Row, Column + 1) && tiles[Row, Column + 1].TileType.HasFlag(TileType.West))
         {
             TileType |= TileType.East;
         }
