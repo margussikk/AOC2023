@@ -58,9 +58,9 @@ internal partial class Day11Solver : Solver
 
                 long directDistance = (maxRow - minRow) + (maxColumn - minColumn);
 
-                var emptyRowsBetween = _expandingRows.Count(x => x > minRow && x < maxRow);
-                var emptyColumnsBetween = _expandingColumns.Count(x => x > minColumn && x < maxColumn);
-                var expandedDistance = (emptyRowsBetween + emptyColumnsBetween) * (expansionFactor - 1);
+                var expandingRowsBetween = _expandingRows.Count(x => x > minRow && x < maxRow);
+                var expandingColumnsBetween = _expandingColumns.Count(x => x > minColumn && x < maxColumn);
+                var expandedDistance = (expandingRowsBetween + expandingColumnsBetween) * (expansionFactor - 1);
 
                 sumOfLengths += directDistance + expandedDistance;
             }
