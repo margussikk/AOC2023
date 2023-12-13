@@ -76,8 +76,8 @@ internal partial class Day13Solver : Solver
 
         for (var column = 0; column < grid.ColumnCount - 1; column++)
         {
-            var column1Terrains = grid.EnumerateColumn(column).ToList();
-            var column2Terrains = grid.EnumerateColumn(column + 1).ToList();
+            var column1Terrains = grid.EnumerateColumn(column);
+            var column2Terrains = grid.EnumerateColumn(column + 1);
 
             var differences = CountDifferences(column1Terrains, column2Terrains);
             if (differences <= smudgeCount) // Possible reflection
@@ -85,8 +85,8 @@ internal partial class Day13Solver : Solver
                 var maxReflectionLength = Math.Min(column, grid.ColumnCount - 1 - column - 1); // Length towards closest edge
                 for(var i = 1; i <= maxReflectionLength; i++)
                 {
-                    column1Terrains = grid.EnumerateColumn(column - i).ToList();
-                    column2Terrains = grid.EnumerateColumn(column + i + 1).ToList();
+                    column1Terrains = grid.EnumerateColumn(column - i);
+                    column2Terrains = grid.EnumerateColumn(column + i + 1);
 
                     differences += CountDifferences(column1Terrains, column2Terrains);
                     if (differences > smudgeCount)
@@ -111,8 +111,8 @@ internal partial class Day13Solver : Solver
 
         for (var row = 0; row < grid.RowCount - 1; row++)
         {
-            var row1Terrains = grid.EnumerateRow(row).ToList();
-            var row2Terrains = grid.EnumerateRow(row + 1).ToList();
+            var row1Terrains = grid.EnumerateRow(row);
+            var row2Terrains = grid.EnumerateRow(row + 1);
 
             var differences = CountDifferences(row1Terrains, row2Terrains);
             if (differences <= smudgeCount) // Possible reflection
@@ -120,8 +120,8 @@ internal partial class Day13Solver : Solver
                 var maxReflectionLength = Math.Min(row, grid.RowCount - 1 - row - 1); // Length towards closest edge
                 for (var i = 1; i <= maxReflectionLength; i++)
                 {
-                    row1Terrains = grid.EnumerateRow(row - i).ToList();
-                    row2Terrains = grid.EnumerateRow(row + 1 + i).ToList();
+                    row1Terrains = grid.EnumerateRow(row - i);
+                    row2Terrains = grid.EnumerateRow(row + 1 + i);
 
                     differences += CountDifferences(row1Terrains, row2Terrains);
                     if (differences > smudgeCount)
@@ -140,12 +140,10 @@ internal partial class Day13Solver : Solver
         return count;
     }
 
-    private static int CountDifferences(List<Terrain> terrains1, List<Terrain> terrains2)
+    private static int CountDifferences(IEnumerable<Terrain> terrains1, IEnumerable<Terrain> terrains2)
     {
-        var counter = Enumerable
-            .Range(0, terrains1.Count)
-            .Count(i => terrains1[i] != terrains2[i]);
-        
-        return counter;
+        return terrains1
+            .Zip(terrains2)
+            .Count(x => x.First != x.Second);
     }
 }
