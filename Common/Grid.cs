@@ -71,15 +71,45 @@ public class Grid<T>
         }
     }
 
+    public Grid<T> Clone()
+    {
+        var grid = new Grid<T>(RowCount, ColumnCount);
+
+        for (var row = 0; row < grid.RowCount; row++)
+        {
+            for (var column = 0; column < grid.ColumnCount; column++)
+            {
+                grid[row, column] = array[row, column];
+            }
+        }
+
+        return grid;
+    }
+
+    public Grid<T> RotateCounterClockwise()
+    {
+        var grid = new Grid<T>(ColumnCount, RowCount);
+
+        for (var row = 0; row < grid.RowCount; row++)
+        {
+            for (var column = 0; column < grid.ColumnCount; column++)
+            {
+                grid[row, column] = array[column, grid.RowCount - 1 - row];
+            }
+        }
+
+        return grid;
+    }
+
     public Grid<T> RotateClockwise()
     {
         var grid = new Grid<T>(ColumnCount, RowCount);
 
-        for (var row = 0; row < RowCount; row++)
+        for (var row = 0; row < grid.RowCount; row++)
         {
-            for (var column = 0; column < ColumnCount; column++)
+            for (var column = 0; column < grid.ColumnCount; column++)
             {
-                grid[column, row] = array[row, column];                
+                grid[row, column] = array[grid.ColumnCount - 1 - column, row];
             }
         }
 

@@ -116,9 +116,7 @@ internal partial class Day10Solver : Solver
         return enclosedTiles.ToString(); // 317
     }
 
-#pragma warning disable S1144 // Unused private types or members should be removed
     private void PrintGrid() // For debugging
-#pragma warning restore S1144 // Unused private types or members should be removed
     {
         Console.OutputEncoding = Encoding.UTF8;
 
