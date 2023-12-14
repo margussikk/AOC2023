@@ -70,4 +70,19 @@ public class Grid<T>
             }
         }
     }
+
+    public Grid<T> RotateClockwise()
+    {
+        var grid = new Grid<T>(ColumnCount, RowCount);
+
+        for (var row = 0; row < RowCount; row++)
+        {
+            for (var column = 0; column < ColumnCount; column++)
+            {
+                grid[column, row] = array[row, column];                
+            }
+        }
+
+        return grid;
+    }
 }

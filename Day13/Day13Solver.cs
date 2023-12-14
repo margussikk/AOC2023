@@ -83,10 +83,10 @@ internal partial class Day13Solver : Solver
             if (differences <= smudgeCount) // Possible reflection
             {
                 var maxReflectionLength = Math.Min(column, grid.ColumnCount - 1 - column - 1); // Length towards closest edge
-                for(var i = 1; i <= maxReflectionLength; i++)
+                for(var distance = 1; distance <= maxReflectionLength; distance++)
                 {
-                    column1Terrains = grid.EnumerateColumn(column - i);
-                    column2Terrains = grid.EnumerateColumn(column + i + 1);
+                    column1Terrains = grid.EnumerateColumn(column - distance);
+                    column2Terrains = grid.EnumerateColumn(column + distance + 1);
 
                     differences += CountDifferences(column1Terrains, column2Terrains);
                     if (differences > smudgeCount)
@@ -107,37 +107,7 @@ internal partial class Day13Solver : Solver
 
     private static int CountReflectedRows(Grid<Terrain> grid, int smudgeCount)
     {
-        var count = 0;
-
-        for (var row = 0; row < grid.RowCount - 1; row++)
-        {
-            var row1Terrains = grid.EnumerateRow(row);
-            var row2Terrains = grid.EnumerateRow(row + 1);
-
-            var differences = CountDifferences(row1Terrains, row2Terrains);
-            if (differences <= smudgeCount) // Possible reflection
-            {
-                var maxReflectionLength = Math.Min(row, grid.RowCount - 1 - row - 1); // Length towards closest edge
-                for (var i = 1; i <= maxReflectionLength; i++)
-                {
-                    row1Terrains = grid.EnumerateRow(row - i);
-                    row2Terrains = grid.EnumerateRow(row + 1 + i);
-
-                    differences += CountDifferences(row1Terrains, row2Terrains);
-                    if (differences > smudgeCount)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            if (differences == smudgeCount)
-            {
-                count += row + 1;
-            }
-        }
-
-        return count;
+        return CountReflectedColumns(grid.RotateClockwise(), smudgeCount);
     }
 
     private static int CountDifferences(IEnumerable<Terrain> terrains1, IEnumerable<Terrain> terrains2)
