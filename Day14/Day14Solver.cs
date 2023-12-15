@@ -51,7 +51,7 @@ internal partial class Day14Solver : Solver
         {
             if (!foundCycle)
             {
-                var hashCode = GetPlatformHashCode(platform);
+                var hashCode = platform.GetHashCode();
                 if (platformCycles.TryGetValue(hashCode, out var platformCycle))
                 {
                     foundCycle = true;
@@ -131,19 +131,6 @@ internal partial class Day14Solver : Solver
             .Sum(row => (platform.RowCount - row) *
                 platform.EnumerateRow(row)
                         .Count(x => x == Item.RoundedRock));
-    }
-
-
-    public static int GetPlatformHashCode(Grid<Item> platform)
-    {
-        var hashCode = new HashCode();
-
-        foreach (var item in platform.EnumerateAll())
-        {
-            hashCode.Add(item);
-        }
-
-        return hashCode.ToHashCode();
     }
 
     private static void Print(Grid<Item> platform)

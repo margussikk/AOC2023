@@ -115,4 +115,29 @@ public class Grid<T>
 
         return grid;
     }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Grid<T> grid &&
+               EqualityComparer<T[,]>.Default.Equals(array, grid.array) &&
+               RowCount == grid.RowCount &&
+               ColumnCount == grid.ColumnCount;
+    }
+
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+
+        foreach (var item in EnumerateAll())
+        {
+            if (item is null)
+            {
+                throw new NotImplementedException();
+            }
+
+            hashCode.Add(item.GetHashCode());
+        }
+
+        return hashCode.ToHashCode();
+    }
 }
