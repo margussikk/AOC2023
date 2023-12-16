@@ -14,22 +14,22 @@ internal class Tile
 
     public void DetermineStartTileType(Grid<Tile> tiles)
     {
-        if (tiles.Contains(Row - 1, Column) && tiles[Row - 1, Column].TileType.HasFlag(TileType.South))
+        if (tiles.InBounds(Row - 1, Column) && tiles[Row - 1, Column].TileType.HasFlag(TileType.South))
         {
             TileType |= TileType.North;
         }
 
-        if (tiles.Contains(Row + 1, Column) && tiles[Row + 1, Column].TileType.HasFlag(TileType.North))
+        if (tiles.InBounds(Row + 1, Column) && tiles[Row + 1, Column].TileType.HasFlag(TileType.North))
         {
             TileType |= TileType.South;
         }
 
-        if (tiles.Contains(Row, Column - 1) && tiles[Row, Column - 1].TileType.HasFlag(TileType.East))
+        if (tiles.InBounds(Row, Column - 1) && tiles[Row, Column - 1].TileType.HasFlag(TileType.East))
         {
             TileType |= TileType.West;
         }
 
-        if (tiles.Contains(Row, Column + 1) && tiles[Row, Column + 1].TileType.HasFlag(TileType.West))
+        if (tiles.InBounds(Row, Column + 1) && tiles[Row, Column + 1].TileType.HasFlag(TileType.West))
         {
             TileType |= TileType.East;
         }

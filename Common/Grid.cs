@@ -21,7 +21,7 @@ public class Grid<T>
         set => array[row, column] = value;
     }
 
-    public bool Contains(int row, int column)
+    public bool InBounds(int row, int column)
     {
         return row >= 0 && row < RowCount &&
             column >= 0 && column < ColumnCount;
@@ -64,7 +64,7 @@ public class Grid<T>
             var newRow = row + rowDelta;
             var newColumn = column + columnDelta;
 
-            if (Contains(newRow, newColumn))
+            if (InBounds(newRow, newColumn))
             {
                 yield return array[newRow, newColumn];
             }
