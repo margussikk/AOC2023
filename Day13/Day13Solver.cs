@@ -2,7 +2,7 @@
 
 namespace Day13;
 
-internal partial class Day13Solver : Solver
+internal class Day13Solver : Solver
 {
     private readonly List<Grid<Terrain>> _grids = new List<Grid<Terrain>>();
 

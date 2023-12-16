@@ -2,7 +2,7 @@
 
 namespace Day09;
 
-internal partial class Day09Solver : Solver
+internal class Day09Solver : Solver
 {
     private List<History> _histories = new List<History>();
 

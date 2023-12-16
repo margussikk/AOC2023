@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Day10;
 
-internal partial class Day10Solver : Solver
+internal class Day10Solver : Solver
 {
     private Grid<Tile> _tiles = new Grid<Tile>(0, 0);
 

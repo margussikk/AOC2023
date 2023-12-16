@@ -10,7 +10,7 @@ namespace Day08;
 // Loops don't intersect and every loop has only one xxZ.
 // xxA -> ... -> ... -> XXX -> ... -> ... -> xxZ -> ... -> XXX
 
-internal partial class Day08Solver : Solver
+internal partial class Day08Solver : Solver // partial because of Regex
 {
     private List<Instruction> _instructions = new List<Instruction>();
     private List<Node> _nodes = new List<Node>();

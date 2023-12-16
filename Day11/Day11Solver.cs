@@ -2,7 +2,7 @@
 
 namespace Day11;
 
-internal partial class Day11Solver : Solver
+internal class Day11Solver : Solver
 {
     private List<Galaxy> _galaxies = new List<Galaxy>();
     private List<int> _expandingRows = new List<int>();

@@ -2,7 +2,7 @@
 
 namespace Day14;
 
-internal partial class Day14Solver : Solver
+internal class Day14Solver : Solver
 {
     private Grid<Item> _platform = new Grid<Item>(0, 0);
 
