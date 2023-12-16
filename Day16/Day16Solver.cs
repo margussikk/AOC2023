@@ -68,7 +68,7 @@ internal class Day16Solver : Solver
 
     private int CountEnergizedTiles(Beam beam)
     {
-        var visitedTiles = new Grid<Direction>(_tiles.RowCount, _tiles.ColumnCount);
+        var tileVisits = new Grid<Direction>(_tiles.RowCount, _tiles.ColumnCount);
         var beams = new Stack<Beam>();
         
         beams.Push(beam);
@@ -77,7 +77,7 @@ internal class Day16Solver : Solver
         {
             beam = beams.Pop();
 
-            while (visitedTiles.InBounds(beam.Row, beam.Column))
+            while (tileVisits.InBounds(beam.Row, beam.Column))
             {
                 var tile = _tiles[beam.Row, beam.Column];
 
@@ -110,13 +110,13 @@ internal class Day16Solver : Solver
                     _ => throw new NotImplementedException()
                 };
 
-                if (visitedTiles[beam.Row, beam.Column].HasFlag(directionMask))
+                if (tileVisits[beam.Row, beam.Column].HasFlag(directionMask))
                 {
                     // Already visited the tile in that general direction (i.e. left to right is the same as right to left)
                     break;
                 }
                                 
-                visitedTiles[beam.Row, beam.Column] |= directionMask;
+                tileVisits[beam.Row, beam.Column] |= directionMask;
 
                 // Process beam's movement
                 if (tile is Tile.PositiveSlopeMirror or Tile.NegativeSlopeMirror)
@@ -156,6 +156,6 @@ internal class Day16Solver : Solver
             }
         }
 
-        return visitedTiles.EnumerateAll().Count(x => x != 0);
+        return tileVisits.EnumerateAll().Count(x => x != 0);
     }
 }
