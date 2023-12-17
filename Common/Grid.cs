@@ -7,6 +7,10 @@ public class Grid<T>
     public int RowCount { get; }
     public int ColumnCount { get; }
 
+    public int LastRowIndex => RowCount - 1;
+
+    public int LastColumnIndex => ColumnCount - 1;
+
     public Grid(int rows, int columns)
     {
         array = new T[rows, columns];
