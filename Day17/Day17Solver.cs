@@ -16,25 +16,23 @@ internal class Day17Solver : Solver
 
     protected override string SolvePartOne()
     {
-        return "111111";
+        var answer = ModifiedDijkstra(1, 3);
 
-        //var answer = ModifiedDijkstra();
-
-        //return answer.ToString();  // 665
+        return answer.ToString();  // 665
     }
 
     protected override string SolvePartTwo()
     {
-        var answer = ModifiedDijkstra();
+        var answer = ModifiedDijkstra(4, 10);
 
-        return answer.ToString();
+        return answer.ToString(); // 809
     }
 
-    private int ModifiedDijkstra()
+    private int ModifiedDijkstra(int minSteps, int maxSteps)
     {
         var currentHeatLoss = 0;
 
-        var visited = new HashSet<int>();
+        var visited = new HashSet<(int, int, Direction, int)>();
 
         var crucible = new Crucible(_cityBlocks[0, 0], null, Direction.None, 0, 0);
 
@@ -44,35 +42,25 @@ internal class Day17Solver : Solver
         while (crucibles.Count > 0)
         {
             crucible = crucibles.Dequeue();
-            var hashCode = crucible.GetHashCode();
 
             if (crucible.CityBlock.Row == _cityBlocks.LastRowIndex && crucible.CityBlock.Column == _cityBlocks.LastColumnIndex)
             {
                 currentHeatLoss = crucible.HeatLoss;
                 break;
             }
-            else if (visited.Contains(hashCode))
+            else if (visited.Contains(crucible.State))
             {
                 continue;
             }
 
-            visited.Add(hashCode);
+            visited.Add(crucible.State);
 
             foreach (var neighbor in EnumerateNeighbors(crucible.CityBlock, crucible.Direction))
             {
-                var newDirection = DetermineMovementDirection(crucible.CityBlock, neighbor);
+                var newDirection = neighbor.DirectionFrom(crucible.CityBlock);
 
-                //if (newDirection != crucible.Direction && crucible.Direction != Direction.None && crucible.Steps <= 4)
-                //{
-                //    continue;
-                //}
-
-                //if (newDirection == crucible.Direction && crucible.Steps >= 10)
-                //{
-                //    continue;
-                //}
-
-                if (newDirection != crucible.Direction || crucible.Steps < 3)
+                if ((newDirection != crucible.Direction && crucible.Steps >= minSteps) ||
+                    ((newDirection == crucible.Direction || crucible.Direction == Direction.None) && crucible.Steps < maxSteps))
                 {
                     var newSteps = newDirection != crucible.Direction ? 1 : crucible.Steps + 1;
                     var newHeatLoss = crucible.HeatLoss + neighbor.HeatLoss;
@@ -86,17 +74,6 @@ internal class Day17Solver : Solver
                 }
             }
         }
-
-        //queueItem = new QueueItem(queueItem.State, queueItem, _cityBlocks[queueItem.State.Row, queueItem.State.Column]);
-
-        //var cityBlockList = new List<CityBlock>();
-        //while (queueItem != null && queueItem.CityBlock != null)
-        //{
-        //    cityBlockList.Add(queueItem.CityBlock);
-        //    queueItem = queueItem.PreviousQueueItem;
-        //}
-
-        //Print2(cityBlockList);
 
         return currentHeatLoss;
     }
@@ -124,25 +101,21 @@ internal class Day17Solver : Solver
         }
     }
 
-    private Direction DetermineMovementDirection(CityBlock previousCityBlock, CityBlock currentCityBlock)
+    private void Print(Crucible? crucible)
     {
-        if (currentCityBlock.Row == previousCityBlock.Row)
-        {
-            return currentCityBlock.Column > previousCityBlock.Column ? Direction.Right : Direction.Left;
-        }
-        else
-        {
-            return currentCityBlock.Row > previousCityBlock.Row ? Direction.Down : Direction.Up;
-        }
-    }
+        var cityBlockList = new List<CityBlock>();
 
-    private void Print(List<CityBlock> cityBlocksList)
-    {
+        while (crucible != null && crucible.CityBlock != null)
+        {
+            cityBlockList.Add(crucible.CityBlock);
+            crucible = crucible.PreviousCrucible;
+        }
+
         for (var row = 0; row < _cityBlocks.RowCount; row++)
         {
             for (var column = 0; column < _cityBlocks.ColumnCount; column++)
             {
-                var tempCityBlock = cityBlocksList.Find(x => x.Row == row && x.Column == column);
+                var tempCityBlock = cityBlockList.Find(x => x.Row == row && x.Column == column);
                 if (tempCityBlock != null)
                 {
                     Console.Write('.');

@@ -13,6 +13,8 @@ internal class Crucible
 
     public int HeatLoss { get; private set; }
 
+    public (int, int, Direction, int) State => (CityBlock.Row, CityBlock.Column, Direction, Steps);
+
     public Crucible(CityBlock cityBlock, Crucible? previousCrucible, Direction direction, int steps, int heatLoss)
     {
         CityBlock = cityBlock;
@@ -20,27 +22,5 @@ internal class Crucible
         Direction = direction;
         Steps = steps;
         HeatLoss = heatLoss;
-    }
-
-    public override int GetHashCode()
-    {
-        var hashCode = new HashCode();
-
-        hashCode.Add(CityBlock.Row.GetHashCode());
-        hashCode.Add(CityBlock.Column.GetHashCode());
-        hashCode.Add(Direction.GetHashCode());
-        hashCode.Add(Steps.GetHashCode());
-
-        return hashCode.ToHashCode();
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return obj is Crucible crucible &&
-               EqualityComparer<CityBlock>.Default.Equals(CityBlock, crucible.CityBlock) &&
-               EqualityComparer<Crucible?>.Default.Equals(PreviousCrucible, crucible.PreviousCrucible) &&
-               Direction == crucible.Direction &&
-               Steps == crucible.Steps &&
-               HeatLoss == crucible.HeatLoss;
     }
 }
