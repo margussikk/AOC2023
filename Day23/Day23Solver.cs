@@ -165,11 +165,11 @@ internal class Day23Solver : Solver
                         (tileHiker.Direction == Direction.Left && (entranceTileType is TileType.SlopeLeft or TileType.Path)) ||
                         (tileHiker.Direction == Direction.Right && (entranceTileType is TileType.SlopeRight or TileType.Path)))
                     {
-                        // Vertex1 is start, Vertex2 is end. Do nothing.
+                        // Start and end vertices are in correct order. Do nothing.
                     }
                     else
                     {
-                        // Vertex2 is start, Vertex1 is end. Swap vertices.
+                        // Start and end vertices are reversed. Swap vertices.
                         (startVertex, endVertex) = (endVertex, startVertex);
                     }
 
