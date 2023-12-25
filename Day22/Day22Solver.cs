@@ -95,11 +95,6 @@ internal class Day22Solver : Solver
                 }
             }
 
-            if (brick.Id == 551)
-            {
-                ;
-            }
-
             brick.DropToZ(maxHeight + 1);
 
             for (var x = brick.Start.X; x <= brick.End.X; x++)
