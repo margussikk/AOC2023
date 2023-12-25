@@ -40,7 +40,7 @@ internal class Brick
         }
     }
 
-    public void DropToZ(int z)
+    public void DropToZ(long z)
     {
         if (Start.Z != z)
         {
@@ -77,7 +77,7 @@ internal class Brick
         };
     }
 
-    public static Brick CreateGroundBrick(int maxX, int maxY)
+    public static Brick CreateGroundBrick(long maxX, long maxY)
     {
         return new Brick
         {

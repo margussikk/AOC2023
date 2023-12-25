@@ -4,13 +4,13 @@ namespace Common
 {
     public readonly struct Coordinate3D
     {
-        public int X { get; }
+        public long X { get; }
 
-        public int Y { get; }
+        public long Y { get; }
 
-        public int Z { get; }
+        public long Z { get; }
 
-        public Coordinate3D(int x, int y, int z)
+        public Coordinate3D(long x, long y, long z)
         {
             X = x;
             Y = y;

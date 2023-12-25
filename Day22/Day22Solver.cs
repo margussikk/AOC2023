@@ -85,13 +85,13 @@ internal class Day22Solver : Solver
         foreach (var brick in bricks)
         {
             // Find how brick low can drop
-            var maxHeight = int.MinValue;
+            var maxHeight = long.MinValue;
 
             for (var x = brick.Start.X; x <= brick.End.X; x++)
             {
                 for (var y = brick.Start.Y; y <= brick.End.Y; y++)
                 {
-                    maxHeight = int.Max(maxHeight, stackedBricks[x, y].End.Z);
+                    maxHeight = long.Max(maxHeight, stackedBricks[x, y].End.Z);
                 }
             }
 
