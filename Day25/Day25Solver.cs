@@ -12,7 +12,6 @@ internal class Day25Solver : Solver
 
     protected override void ParseInput(string[] inputLines)
     {
-        var wireId = 0;
         var components = new Dictionary<string, Component>();
         
         for (var i = 0; i < inputLines.Length; i++)
@@ -43,9 +42,7 @@ internal class Day25Solver : Solver
                     throw new InvalidOperationException($"Wire already exists between {mainComponent.Name} and {otherComponent.Name}");
                 }
 
-                wireId++;
-                var wire = new Wire(wireId, mainComponent, otherComponent);
-
+                var wire = new Wire(mainComponent, otherComponent);
                 mainComponent.AddWire(wire);
                 otherComponent.AddWire(wire);
 
