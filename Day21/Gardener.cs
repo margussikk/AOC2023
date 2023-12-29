@@ -1,16 +1,17 @@
-﻿using Common;
-
-namespace Day21;
+﻿namespace Day21;
 
 internal class Gardener
 {
-    public GridCoordinate Coordinate { get; set; }
+    public int Row { get; }
+
+    public int Column { get; }
 
     public int Steps { get; set; }
 
-    public Gardener(GridCoordinate coordinate, int steps)
+    public Gardener(int row, int column, int steps)
     {
-        Coordinate = coordinate;
+        Row = row;
+        Column = column;
         Steps = steps;
     }
 }

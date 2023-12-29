@@ -57,7 +57,7 @@ internal class Day21Solver : Solver
     protected override string SolvePartOne()
     {
         var startingTile = _tiles.EnumerateAll().First(x => x.TileType == TileType.StartingPosition);
-        var answer = CountReachableGardenSpots(startingTile.Row, startingTile.Column, 64, false);
+        var answer = CountReachableGardenSpots(startingTile.Row, startingTile.Column, 64);
 
         return answer.ToString(); // 3716
     }
@@ -83,23 +83,23 @@ internal class Day21Solver : Solver
 
         // Fill every type of grid to count possible reached garden spots. Some grids are filled fully,
         // some partally using various starting points and step counts. See diagram above.
-        var even = CountReachableGardenSpots(middleRow, middleColumn, 129, false);
-        var odd = CountReachableGardenSpots(middleRow, middleColumn, 130, false);
+        var even = CountReachableGardenSpots(middleRow, middleColumn, 129);
+        var odd = CountReachableGardenSpots(middleRow, middleColumn, 130);
 
-        var left = CountReachableGardenSpots(middleRow, lastColumn, 130, false);
-        var right = CountReachableGardenSpots(middleRow, firstColumn, 130, false);
-        var top = CountReachableGardenSpots(lastRow, middleColumn, 130, false);
-        var bottom = CountReachableGardenSpots(firstRow, middleColumn, 130, false);
+        var left = CountReachableGardenSpots(middleRow, lastColumn, 130);
+        var right = CountReachableGardenSpots(middleRow, firstColumn, 130);
+        var top = CountReachableGardenSpots(lastRow, middleColumn, 130);
+        var bottom = CountReachableGardenSpots(firstRow, middleColumn, 130);
 
-        var smallTopLeft = CountReachableGardenSpots(lastRow, lastColumn, 64, false);
-        var smallTopRight = CountReachableGardenSpots(lastRow, firstColumn, 64, false);
-        var smallBottomLeft = CountReachableGardenSpots(firstRow, lastColumn, 64, false);
-        var smallBottomRight = CountReachableGardenSpots(firstRow, firstColumn, 64, false);
+        var smallTopLeft = CountReachableGardenSpots(lastRow, lastColumn, 64);
+        var smallTopRight = CountReachableGardenSpots(lastRow, firstColumn, 64);
+        var smallBottomLeft = CountReachableGardenSpots(firstRow, lastColumn, 64);
+        var smallBottomRight = CountReachableGardenSpots(firstRow, firstColumn, 64);
 
-        var largeTopLeft = CountReachableGardenSpots(lastRow, lastColumn, 130 + 65, false);
-        var largeTopRight = CountReachableGardenSpots(lastRow, firstColumn, 130 + 65, false);
-        var largeBottomLeft = CountReachableGardenSpots(firstRow, lastColumn, 130 + 65, false);
-        var largeBottomRight = CountReachableGardenSpots(firstRow, firstColumn, 130 + 65, false);
+        var largeTopLeft = CountReachableGardenSpots(lastRow, lastColumn, 130 + 65);
+        var largeTopRight = CountReachableGardenSpots(lastRow, firstColumn, 130 + 65);
+        var largeBottomLeft = CountReachableGardenSpots(firstRow, lastColumn, 130 + 65);
+        var largeBottomRight = CountReachableGardenSpots(firstRow, firstColumn, 130 + 65);
 
         var answer = (gridCount - 1) * (gridCount - 1) * even +
             (gridCount * gridCount) * odd +
@@ -110,45 +110,34 @@ internal class Day21Solver : Solver
         return answer.ToString(); // 616583483179597
     }
 
-    private long CountReachableGardenSpots(int startRow, int startColumn, int steps, bool infinite)
+    private long CountReachableGardenSpots(int startRow, int startColumn, int steps)
     {
-        var visited = new HashSet<GridCoordinate>[2]
+        var visited = new HashSet<(int, int)>[2]
         {
             [], // Even
             [], // Odd
         };
         var queue = new Queue<Gardener>();
 
-        var gardener = new Gardener(new GridCoordinate(startRow, startColumn), 0);
+        var gardener = new Gardener(startRow, startColumn, 0);
         queue.Enqueue(gardener);
 
         while (queue.Count > 0)
         {
             gardener = queue.Dequeue();
 
-            if (gardener.Steps > steps || visited[gardener.Steps % 2].Contains(gardener.Coordinate))
+            var state = (gardener.Row, gardener.Column);
+            if (gardener.Steps > steps || visited[gardener.Steps % 2].Contains(state))
             {
                 continue;
             }
 
-            visited[gardener.Steps % 2].Add(gardener.Coordinate);
+            visited[gardener.Steps % 2].Add(state);
 
-            foreach(var sideCoordinate in gardener.Coordinate.Sides())
+            foreach(var neighborTile in _tiles.EnumerateSideNeighbors(gardener.Row, gardener.Column).Where(t => t.TileType != TileType.Rock))
             {
-                if (!infinite && !_tiles.InBounds(sideCoordinate.Row, sideCoordinate.Column))
-                {
-                    continue;
-                }
-
-                var tileRow = MathUtils.Mod(sideCoordinate.Row, _tiles.RowCount);
-                var tileColumn = MathUtils.Mod(sideCoordinate.Column, _tiles.ColumnCount);
-                var neighborTile = _tiles[tileRow, tileColumn];
-
-                if (neighborTile.TileType is TileType.GardenPlot or TileType.StartingPosition)
-                {
-                    var newGardener = new Gardener(sideCoordinate, gardener.Steps + 1);
-                    queue.Enqueue(newGardener);
-                }
+                var newGardener = new Gardener(neighborTile.Row, neighborTile.Column, gardener.Steps + 1);
+                queue.Enqueue(newGardener);
             }
         }
 
