@@ -133,8 +133,7 @@ internal class Day21Solver : Solver
 
             visited[gardener.Steps % 2].Add(gardener.Coordinate);
 
-            var sideCoordinates = EnumerateSideCoordinates(gardener.Coordinate);
-            foreach(var sideCoordinate in sideCoordinates)
+            foreach(var sideCoordinate in gardener.Coordinate.Sides())
             {
                 if (!infinite && !_tiles.InBounds(sideCoordinate.Row, sideCoordinate.Column))
                 {
@@ -154,18 +153,5 @@ internal class Day21Solver : Solver
         }
 
         return visited[steps % 2].Count;
-    }
-
-    private IEnumerable<GridCoordinate> EnumerateSideCoordinates(GridCoordinate coordinate)
-    {
-        var deltas = new (int rowDelta, int columnDelta)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
-
-        foreach (var (rowDelta, columnDelta) in deltas)
-        {
-            var newRow = coordinate.Row + rowDelta;
-            var newColumn = coordinate.Column + columnDelta;
-
-            yield return new GridCoordinate(newRow, newColumn);
-        }
     }
 }

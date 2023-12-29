@@ -12,6 +12,14 @@ public struct GridCoordinate
         Column = column;
     }
 
+    public IEnumerable<GridCoordinate> Sides()
+    {
+        yield return new GridCoordinate(Row - 1, Column); // Top
+        yield return new GridCoordinate(Row, Column + 1); // Right
+        yield return new GridCoordinate(Row + 1, Column); // Bottom
+        yield return new GridCoordinate(Row, Column - 1); // Left
+    }
+
     public static bool operator ==(GridCoordinate gridCoordinate1, GridCoordinate gridCoordinate2)
     {
         return gridCoordinate1.Equals(gridCoordinate2);
