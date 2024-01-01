@@ -1,12 +1,23 @@
-﻿using Common;
-
-namespace Day24;
+﻿namespace Day24;
 
 internal class Hailstone
 {
-    public Coordinate3D Position { get; set; }
+    public long X { get; }
+    public long Y { get; }
+    public long Z { get; }
+    public long DX { get; }
+    public long DY { get; }
+    public long DZ { get; }
 
-    public Coordinate3D Velocity { get; set; }
+    public Hailstone(long x, long y, long z, long dX, long dY, long dZ)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+        DX = dX;
+        DY = dY;
+        DZ = dZ;
+    }
 
     public static Hailstone Parse(string input)
     {
@@ -22,12 +33,7 @@ internal class Hailstone
             .Select(long.Parse)
             .ToList();
 
-        var hailstone = new Hailstone
-        {
-            Position = new Coordinate3D(positionCoordinates[0], positionCoordinates[1], positionCoordinates[2]),
-            Velocity = new Coordinate3D(velocityCoordinates[0], velocityCoordinates[1], velocityCoordinates[2]),
-        };
-
-        return hailstone;
+        return new Hailstone(positionCoordinates[0], positionCoordinates[1], positionCoordinates[2],
+                             velocityCoordinates[0], velocityCoordinates[1], velocityCoordinates[2]);
     }
 }

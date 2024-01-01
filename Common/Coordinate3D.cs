@@ -1,70 +1,69 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Common
+namespace Common;
+
+public readonly struct Coordinate3D
 {
-    public readonly struct Coordinate3D
+    public long X { get; }
+
+    public long Y { get; }
+
+    public long Z { get; }
+
+    public Coordinate3D(long x, long y, long z)
     {
-        public long X { get; }
+        X = x;
+        Y = y;
+        Z = z;
+    }
 
-        public long Y { get; }
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        return obj is Coordinate3D otherCoordinate && X == otherCoordinate.X && Y == otherCoordinate.Y && Z == otherCoordinate.Z;
+    }
 
-        public long Z { get; }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
+    }
 
-        public Coordinate3D(long x, long y, long z)
+    public override string ToString()
+    {
+        return $"{X},{Y},{Z}";
+    }
+
+    public IEnumerable<Coordinate3D> EnumerateSideCoordinates()
+    {
+        var vectors = new Coordinate3D[]
         {
-            X = x;
-            Y = y;
-            Z = z;
-        }
+            new Coordinate3D(1, 0, 0),
+            new Coordinate3D(-1, 0, 0),
 
-        public override bool Equals([NotNullWhen(true)] object? obj)
+            new Coordinate3D(0, 1, 0),
+            new Coordinate3D(0, -1, 0),
+
+            new Coordinate3D(0, 0, 1),
+            new Coordinate3D(0, 0, -1),
+        };
+
+        foreach (var vector in vectors)
         {
-            return obj is Coordinate3D otherCoordinate && X == otherCoordinate.X && Y == otherCoordinate.Y && Z == otherCoordinate.Z;
+            yield return this + vector;
         }
+    }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(X, Y);
-        }
+    public static bool operator ==(Coordinate3D left, Coordinate3D right)
+    {
+        return left.Equals(right);
+    }
 
-        public override string ToString()
-        {
-            return $"{X},{Y},{Z}";
-        }
+    public static bool operator !=(Coordinate3D left, Coordinate3D right)
+    {
+        return !(left == right);
+    }
 
-        public IEnumerable<Coordinate3D> EnumerateSideCoordinates()
-        {
-            var vectors = new Coordinate3D[]
-            {
-                new Coordinate3D(1, 0, 0),
-                new Coordinate3D(-1, 0, 0),
-
-                new Coordinate3D(0, 1, 0),
-                new Coordinate3D(0, -1, 0),
-
-                new Coordinate3D(0, 0, 1),
-                new Coordinate3D(0, 0, -1),
-            };
-
-            foreach (var vector in vectors)
-            {
-                yield return this + vector;
-            }
-        }
-
-        public static bool operator ==(Coordinate3D left, Coordinate3D right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(Coordinate3D left, Coordinate3D right)
-        {
-            return !(left == right);
-        }
-
-        public static Coordinate3D operator +(Coordinate3D left, Coordinate3D right)
-        {
-            return new Coordinate3D(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
-        }
+    public static Coordinate3D operator +(Coordinate3D left, Coordinate3D right)
+    {
+        return new Coordinate3D(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
     }
 }

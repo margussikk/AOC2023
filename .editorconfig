@@ -1,7 +1,4 @@
 ﻿[*.cs]
-
-# S1144: Unused private types or members should be removed
-dotnet_diagnostic.S1144.severity = none
 csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
@@ -84,3 +81,9 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 
 # S2346: Flags enumerations zero-value members should be named "None"
 dotnet_diagnostic.S2346.severity = none
+
+# S1144: Unused private types or members should be removed
+dotnet_diagnostic.S1144.severity = none
+
+# S125: Remove this commented out code.
+dotnet_diagnostic.S125.severity = none
