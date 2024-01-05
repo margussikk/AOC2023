@@ -107,7 +107,13 @@ internal class Day13Solver : Solver
 
     private static int CountReflectedRows(Grid<Terrain> grid, int smudgeCount)
     {
-        return CountReflectedColumns(grid.RotateClockwise(), smudgeCount);
+        var reflectedColumns = CountReflectedColumns(grid.RotateClockwise(), smudgeCount);
+        if (reflectedColumns == 0)
+        {
+            return 0;
+        }
+
+        return grid.RowCount - reflectedColumns;
     }
 
     private static int CountDifferences(IEnumerable<Terrain> terrains1, IEnumerable<Terrain> terrains2)
